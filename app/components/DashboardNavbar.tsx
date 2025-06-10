@@ -9,6 +9,18 @@ const DashboardNavbar = () => {
         <FaHome className="text-pink-500 text-2xl" />
         <span className="text-xl font-bold text-gray-800">StayHub</span>
       </div>
+      <div className="flex flex-grow justify-center space-x-6">
+        <Link href="/">
+          <p className="text-gray-600 hover:text-pink-500 cursor-pointer">
+            Inicio
+          </p>
+        </Link>
+        <Link href="/dashboard">
+          <p className="text-gray-600 hover:text-pink-500 cursor-pointer">
+            Dashboard
+          </p>
+        </Link>
+      </div>
       <div className="flex space-x-4">
         <button className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600">
           Cerrar Sesión

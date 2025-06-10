@@ -1,4 +1,47 @@
+"use client";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function RegisterPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPasswordEqual, setIsPasswordEqual] = useState(true);
+  const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setIsPasswordEqual(true);
+
+    const formData = new FormData(e.currentTarget);
+    const confirmPassword = formData.get("confirmPassword");
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      age: formData.get("age"),
+      cedula: formData.get("cedula"),
+    };
+
+    if (data.password !== confirmPassword) {
+      setIsPasswordEqual(false);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/users/register",
+        data
+      );
+      if (response.status === 201) {
+        router.push("/auth/login");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -34,7 +77,7 @@ export default function RegisterPage() {
             Completa la información para crear tu cuenta
           </p>
 
-          <form>
+          <form onSubmit={handlerSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label
@@ -45,8 +88,8 @@ export default function RegisterPage() {
                 </label>
                 <input
                   type="text"
-                  id="nombre"
-                  name="nombre"
+                  id="name"
+                  name="name"
                   placeholder="Juan"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
                 />
@@ -60,8 +103,8 @@ export default function RegisterPage() {
                 </label>
                 <input
                   type="text"
-                  id="no_cedula"
-                  name="no_cedula"
+                  id="cedula"
+                  name="cedula"
                   placeholder="123456789"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
                 />
@@ -77,8 +120,8 @@ export default function RegisterPage() {
               </label>
               <input
                 type="number"
-                id="edad"
-                name="edad"
+                id="age"
+                name="age"
                 placeholder="30"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
               />
@@ -133,12 +176,16 @@ export default function RegisterPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
               />
             </div>
+            <p className="text-red-500">
+              {!isPasswordEqual ? "Las contraseñas no coinciden" : ""}
+            </p>
 
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
             >
-              Crear Cuenta
+              {isLoading ? "Cargando..." : "Crear Cuenta"}
             </button>
           </form>
 

@@ -1,4 +1,38 @@
+"use client";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 export default function LoginPage() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+
+  const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/users/login",
+        data
+      );
+      setIsLogin(true);
+      router.push("/dashboard");
+    } catch (error) {
+      setIsLogin(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -36,7 +70,7 @@ export default function LoginPage() {
             Ingresa tus credenciales para acceder a tu cuenta
           </p>
 
-          <form>
+          <form onSubmit={handlerSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -49,6 +83,7 @@ export default function LoginPage() {
                 id="email"
                 name="email"
                 placeholder="tu@email.com"
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
               />
             </div>
@@ -66,16 +101,24 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   placeholder="Tu contraseña"
+                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900"
                 />
               </div>
             </div>
 
+            {!isLogin && (
+              <p className="text-red-500 mb-4 text-sm">
+                Contraseña o correo incorrectos
+              </p>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
+              disabled={isLoading}
+              className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Iniciar Sesión
+              {isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
             </button>
           </form>
 

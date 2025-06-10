@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { Context } from "@/context/context";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const { setUserLogin, setToken } = useContext(Context);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,8 +26,10 @@ export default function LoginPage() {
         "http://localhost:8000/users/login",
         data
       );
-      setIsLogin(true);
+      setToken(response.data.access_token);
+      setUserLogin(response.data.user);
       router.push("/dashboard");
+      setIsLogin(true);
     } catch (error) {
       setIsLogin(false);
     } finally {

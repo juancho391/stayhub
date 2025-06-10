@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useContext } from "react";
+import { Context } from "@/context/context";
 const DashboardContent = () => {
+  const { userProfileInfo } = useContext(Context);
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
@@ -12,7 +14,7 @@ const DashboardContent = () => {
         <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-700">
-              Reservas Activas
+              Mis Reservas
             </h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +31,9 @@ const DashboardContent = () => {
               />
             </svg>
           </div>
-          <p className="text-4xl font-bold text-gray-900">3</p>
-          <p className="text-sm text-gray-500">+2 desde el mes pasado</p>
+          <p className="text-4xl font-bold text-gray-900">
+            {userProfileInfo.bookings.lenght || 0}
+          </p>
         </div>
 
         {/* Mis Alojamientos Card */}

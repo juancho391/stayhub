@@ -12,6 +12,13 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@font-face {
+  font-family: 'GeistSans';
+  src: url('/fonts/GeistSans.woff2') format('woff2');
+  font-display: swap;
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

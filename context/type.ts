@@ -30,8 +30,3 @@ export interface User {
   bookings: Bookings[];
   lodgings: Lodging[];
 }
-
-export interface UserLogin {
-  id: number;
-  sub: s;
-}

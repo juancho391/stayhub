@@ -3,6 +3,7 @@ import React, { use, useEffect } from "react";
 import { useContext } from "react";
 import { Context } from "@/context/context";
 import { Bookings, Lodging } from "@/context/type";
+import Link from "next/link";
 const DashboardContent = () => {
   const { userProfileInfo } = useContext(Context);
 
@@ -10,7 +11,6 @@ const DashboardContent = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
       <p className="text-gray-600 mb-8">Gestiona tus alojamientos y reservas</p>
-
       {/* Top statistics cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Reserva Activas Card */}
@@ -225,7 +225,9 @@ const DashboardContent = () => {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              <span>Agregar</span>
+              <span>
+                <Link href="/Formulario">Agregar</Link>
+              </span>
             </button>
           </div>
           <p className="text-gray-600 mb-6">Gestiona tus propiedades</p>

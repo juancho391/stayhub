@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { LuHouse } from "react-icons/lu";
 import { FaWifi, FaCar, FaUtensils, FaTv } from "react-icons/fa";
 import { MdKitchen, MdAcUnit } from "react-icons/md";
 import { GiForkKnifeSpoon } from "react-icons/gi";
-
+import axios from "axios";
+import { Context } from "@/context/context";
+import { useRouter } from "next/navigation";
 const AgregarAlojamiento: React.FC = () => {
+  const { userProfileInfo } = useContext(Context);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [tipo, setTipo] = useState("");
@@ -21,7 +24,33 @@ const AgregarAlojamiento: React.FC = () => {
     television: false,
     desayuno: false,
   });
+  const router = useRouter();
 
+  const handleFormSubmit = async () => {
+    console.log(userProfileInfo.id);
+    const serviciosActivos = Object.entries(servicios)
+      .filter(([_, value]) => value)
+      .map(([name]) => name);
+    try {
+      const response = await axios.post("http://localhost:8000/lodging/", {
+        title: titulo,
+        description: descripcion,
+        type: tipo,
+        city: ubicacion,
+        price_night: precio,
+        propietario: userProfileInfo.id,
+        characteristics: serviciosActivos,
+        nearby_areas: [],
+      });
+      if (response.status === 200) {
+        console.log("Creado con exito");
+        console.log(response.data);
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const toggleServicio = (servicio: keyof typeof servicios) => {
     setServicios((prev) => ({ ...prev, [servicio]: !prev[servicio] }));
   };
@@ -249,7 +278,11 @@ const AgregarAlojamiento: React.FC = () => {
           </div>
           {/* Botón de Publicar */}
           <div className="text-center mt-6">
-            <button className="bg-black text-white font-medium px-6 py-2 rounded-full hover:bg-gray-800 transition">
+            <button
+              type="submit"
+              className="bg-black text-white font-medium px-6 py-2 rounded-full hover:bg-gray-800 transition"
+              onClick={handleFormSubmit}
+            >
               Publicar Alojamiento
             </button>
           </div>

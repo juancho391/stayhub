@@ -1,43 +1,28 @@
+"use client";
 import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import ApartmentCard from "./components/ApartmentCard";
-
+import axios from "axios";
+import { Lodging } from "@/context/type";
+import { useState, useEffect } from "react";
 export default function Home() {
-  const apartments = [
-    {
-      id: 1,
-      image: "/apartment1.jpg",
-      title: "Apartamento moderno en el centro",
-      location: "Madrid",
-      guests: 4,
-      type: "Apartamento",
-      reviews: 124,
-      price: 85,
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      image: "/apartment2.jpg",
-      title: "Casa con jardín privado",
-      location: "Barcelona",
-      guests: 6,
-      type: "Casa",
-      reviews: 89,
-      price: 120,
-      rating: 4.9,
-    },
-    {
-      id: 3,
-      image: "/apartment3.jpg",
-      title: "Loft industrial renovado",
-      location: "Valencia",
-      guests: 2,
-      type: "Apartamento",
-      reviews: 156,
-      price: 95,
-      rating: 4.7,
-    },
-  ];
+  const [lodgins, setlodgins] = useState<Lodging[]>([]);
+
+  const obtener_lodgings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/lodging/`);
+      if (response.status === 200) {
+        console.log(response.data);
+        setlodgins(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    obtener_lodgings();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -59,7 +44,7 @@ export default function Home() {
           Alojamientos disponibles
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {apartments.map((apartment) => (
+          {lodgins.map((apartment) => (
             <ApartmentCard key={apartment.id} apartment={apartment} />
           ))}
         </div>

@@ -1,7 +1,15 @@
-import React from "react";
+// "use client";
+"use client"; // ← Esto convierte el componente en un Client Component
+import React, { useEffect } from "react";
 import { LuHouse, LuCalendarDays, LuHeart } from "react-icons/lu";
-
-const AccommodationPage: React.FC = () => {
+import { Lodging } from "@/context/type";
+import { useContext } from "react";
+import { Context } from "@/context/context";
+const AccommodationPage = () => {
+  const { selectLogin } = useContext(Context);
+  // useEffect(() => {
+  //   console.log(selectLogin.title);
+  // }, []);
   return (
     <div className="bg-[#f9f9f9] min-h-screen text-[#222]">
       <header className="border-b bg-white">
@@ -38,16 +46,18 @@ const AccommodationPage: React.FC = () => {
         <div className="flex justify-between items-start mb-4">
           <div>
             <h1 className="text-3xl font-bold text-[#222] mb-1">
-              Apartamento moderno en el centro
+              {selectLogin.title}
             </h1>
 
             <div className="flex items-center text-sm text-gray-600">
               <span className="text-yellow-500 mr-1">★ 4.8</span>
               <span className="mr-1">(124 reseñas)</span>
               <span className="mx-2">•</span>
-              <span>Madrid</span>
+              <span>{selectLogin.city}</span>
               <span className="mx-2">•</span>
-              <span className="font-semibold text-[#222]">Apartamento</span>
+              <span className="font-semibold text-[#222]">
+                {selectLogin.type}
+              </span>
             </div>
           </div>
 
@@ -75,10 +85,7 @@ const AccommodationPage: React.FC = () => {
                 Descripción
               </h2>
               <p className="text-gray-700 mb-4 leading-relaxed">
-                Hermoso apartamento completamente renovado en el corazón de
-                Madrid. Perfecto para parejas o viajeros de negocios. Cuenta con
-                todas las comodidades modernas y está ubicado cerca de las
-                principales atracciones turísticas.
+                {selectLogin.description}
               </p>
               <div className="flex justify-between text-sm text-[#222] font-medium">
                 <div className="text-center">
@@ -87,11 +94,11 @@ const AccommodationPage: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-xl">🛏️</div>
-                  <div>2 habitaciones</div>
+                  <div>{selectLogin.no_rooms}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-xl">🚿</div>
-                  <div>1 baño</div>
+                  <div>{selectLogin.no_bathrooms}</div>
                 </div>
               </div>
             </div>
@@ -111,7 +118,7 @@ const AccommodationPage: React.FC = () => {
           <div className="bg-white p-6 rounded-xl shadow-sm w-full lg:w-auto h-fit border border-gray-200">
             <div className="flex justify-between items-center text-[22px] font-bold mb-6 text-[#222]">
               <span>
-                €85{" "}
+                {selectLogin.price_night}{" "}
                 <span className="text-base font-normal text-[#717171]">
                   / noche
                 </span>

@@ -12,3 +12,19 @@ export interface Lodging {
   nearby_areas: string[];
   type: string;
 }
+
+export interface Bookings {
+  id: string;
+  id_alojamiento: string;
+  fecha_fin: string;
+  lodging_id: string;
+  id_usuario: number;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  cedula: string;
+  age: number;
+}

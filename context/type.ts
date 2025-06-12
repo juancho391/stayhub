@@ -27,4 +27,11 @@ export interface User {
   email: string;
   cedula: string;
   age: number;
+  bookings: Bookings[];
+  lodgings: Lodging[];
+}
+
+export interface UserLogin {
+  id: number;
+  sub: s;
 }

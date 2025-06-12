@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     getUserProfile();
-  }, []);
+  }, [userLogin]);
 
   return (
     <div className="min-h-screen bg-gray-100">

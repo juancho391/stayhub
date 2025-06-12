@@ -27,8 +27,7 @@ export default function LoginPage() {
         data
       );
       setToken(response.data.access_token);
-      console.log(response.data.access_token.id);
-      setUserLogin(response.data.user);
+      // setUserLogin(response.data.user);
       router.push("/dashboard");
       setIsLogin(true);
     } catch (error) {

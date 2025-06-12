@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useContext } from "react";
 import { Context } from "@/context/context";
@@ -32,7 +33,7 @@ const DashboardContent = () => {
             </svg>
           </div>
           <p className="text-4xl font-bold text-gray-900">
-            {userProfileInfo.bookings.lenght || 0}
+            {userProfileInfo?.bookings?.lenght || 0}
           </p>
         </div>
 

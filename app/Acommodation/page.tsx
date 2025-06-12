@@ -1,26 +1,25 @@
-// "use client";
-"use client"; // ← Esto convierte el componente en un Client Component
-import React, { useEffect } from "react";
+"use client";
+
+import React, { useState } from "react";
 import { LuHouse, LuCalendarDays, LuHeart } from "react-icons/lu";
-import { Lodging } from "@/context/type";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useContext } from "react";
 import { Context } from "@/context/context";
-const AccommodationPage = () => {
+
+const AccommodationPage: React.FC = () => {
+  const [checkInDate, setCheckInDate] = useState<Date | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
   const { selectLogin } = useContext(Context);
-  // useEffect(() => {
-  //   console.log(selectLogin.title);
-  // }, []);
   return (
     <div className="bg-[#f9f9f9] min-h-screen text-[#222]">
       <header className="border-b bg-white">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          {/* Logo */}
           <div className="flex items-center gap-1 font-bold text-xl">
             <LuHouse className="w-6 h-6 text-[rgb(236,72,153)]" />
             <span className="text-black">StayHub</span>
           </div>
 
-          {/* Navegación */}
           <nav className="flex items-center space-x-6 text-sm font-medium text-[#111]">
             <a href="#" className="hover:underline">
               Inicio
@@ -30,7 +29,6 @@ const AccommodationPage = () => {
             </a>
           </nav>
 
-          {/* Sesión */}
           <div className="flex items-center space-x-4 text-sm font-medium text-[#111]">
             <a href="#" className="hover:underline">
               Iniciar Sesión
@@ -46,17 +44,17 @@ const AccommodationPage = () => {
         <div className="flex justify-between items-start mb-4">
           <div>
             <h1 className="text-3xl font-bold text-[#222] mb-1">
-              {selectLogin.title}
+              {selectLogin?.title}{" "}
             </h1>
 
             <div className="flex items-center text-sm text-gray-600">
               <span className="text-yellow-500 mr-1">★ 4.8</span>
               <span className="mr-1">(124 reseñas)</span>
               <span className="mx-2">•</span>
-              <span>{selectLogin.city}</span>
+              <span>{selectLogin?.city}</span>
               <span className="mx-2">•</span>
               <span className="font-semibold text-[#222]">
-                {selectLogin.type}
+                {selectLogin?.type}
               </span>
             </div>
           </div>
@@ -85,7 +83,7 @@ const AccommodationPage = () => {
                 Descripción
               </h2>
               <p className="text-gray-700 mb-4 leading-relaxed">
-                {selectLogin.description}
+                {selectLogin?.description}
               </p>
               <div className="flex justify-between text-sm text-[#222] font-medium">
                 <div className="text-center">
@@ -94,11 +92,11 @@ const AccommodationPage = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-xl">🛏️</div>
-                  <div>{selectLogin.no_rooms}</div>
+                  <div>{selectLogin?.no_rooms}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-xl">🚿</div>
-                  <div>{selectLogin.no_bathrooms}</div>
+                  <div>{selectLogin?.no_bathrooms}</div>
                 </div>
               </div>
             </div>
@@ -113,12 +111,19 @@ const AccommodationPage = () => {
                 <li>🍳 Cocina equipada</li>
               </ul>
             </div>
+
+            {/* Botón Publicar Alojamiento */}
+            <div className="mt-8">
+              <button className="bg-black text-white px-5 py-2 rounded-md font-semibold text-sm">
+                Publicar Alojamiento
+              </button>
+            </div>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm w-full lg:w-auto h-fit border border-gray-200">
             <div className="flex justify-between items-center text-[22px] font-bold mb-6 text-[#222]">
               <span>
-                {selectLogin.price_night}{" "}
+                ${selectLogin?.price_night}{" "}
                 <span className="text-base font-normal text-[#717171]">
                   / noche
                 </span>
@@ -128,20 +133,34 @@ const AccommodationPage = () => {
               </span>
             </div>
 
+            {/* Campos de fechas con calendario */}
             <div className="grid grid-cols-2 gap-2 mb-4 text-sm text-[#222] font-semibold">
               <label className="flex flex-col gap-1">
                 <span>Check-in</span>
-                <div className="flex items-center border border-[#dddddd] rounded-md px-3 py-[10px] text-sm font-normal text-[#717171]">
-                  <LuCalendarDays className="mr-2 text-black" />
-                  Seleccionar
-                </div>
+                <DatePicker
+                  selected={checkInDate}
+                  onChange={(date) => setCheckInDate(date)}
+                  selectsStart
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={new Date()}
+                  placeholderText="Seleccionar"
+                  className="w-full border border-[#dddddd] rounded-md px-3 py-[10px] text-[#222] font-normal"
+                />
               </label>
+
               <label className="flex flex-col gap-1">
                 <span>Check-out</span>
-                <div className="flex items-center border border-[#dddddd] rounded-md px-3 py-[10px] text-sm font-normal text-[#717171]">
-                  <LuCalendarDays className="mr-2 text-black" />
-                  Seleccionar
-                </div>
+                <DatePicker
+                  selected={checkOutDate}
+                  onChange={(date) => setCheckOutDate(date)}
+                  selectsEnd
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={checkInDate || new Date()}
+                  placeholderText="Seleccionar"
+                  className="w-full border border-[#dddddd] rounded-md px-3 py-[10px] text-[#222] font-normal"
+                />
               </label>
             </div>
 

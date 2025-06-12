@@ -1,18 +1,23 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { LuHouse, LuCalendarDays, LuHeart } from "react-icons/lu";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AccommodationPage: React.FC = () => {
+  const [checkInDate, setCheckInDate] = useState<Date | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+
   return (
     <div className="bg-[#f9f9f9] min-h-screen text-[#222]">
       <header className="border-b bg-white">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          {/* Logo */}
           <div className="flex items-center gap-1 font-bold text-xl">
             <LuHouse className="w-6 h-6 text-[rgb(236,72,153)]" />
             <span className="text-black">StayHub</span>
           </div>
 
-          {/* Navegación */}
           <nav className="flex items-center space-x-6 text-sm font-medium text-[#111]">
             <a href="#" className="hover:underline">
               Inicio
@@ -22,7 +27,6 @@ const AccommodationPage: React.FC = () => {
             </a>
           </nav>
 
-          {/* Sesión */}
           <div className="flex items-center space-x-4 text-sm font-medium text-[#111]">
             <a href="#" className="hover:underline">
               Iniciar Sesión
@@ -106,6 +110,13 @@ const AccommodationPage: React.FC = () => {
                 <li>🍳 Cocina equipada</li>
               </ul>
             </div>
+
+            {/* Botón Publicar Alojamiento */}
+            <div className="mt-8">
+              <button className="bg-black text-white px-5 py-2 rounded-md font-semibold text-sm">
+                Publicar Alojamiento
+              </button>
+            </div>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm w-full lg:w-auto h-fit border border-gray-200">
@@ -121,20 +132,34 @@ const AccommodationPage: React.FC = () => {
               </span>
             </div>
 
+            {/* Campos de fechas con calendario */}
             <div className="grid grid-cols-2 gap-2 mb-4 text-sm text-[#222] font-semibold">
               <label className="flex flex-col gap-1">
                 <span>Check-in</span>
-                <div className="flex items-center border border-[#dddddd] rounded-md px-3 py-[10px] text-sm font-normal text-[#717171]">
-                  <LuCalendarDays className="mr-2 text-black" />
-                  Seleccionar
-                </div>
+                <DatePicker
+                  selected={checkInDate}
+                  onChange={(date) => setCheckInDate(date)}
+                  selectsStart
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={new Date()}
+                  placeholderText="Seleccionar"
+                  className="w-full border border-[#dddddd] rounded-md px-3 py-[10px] text-[#222] font-normal"
+                />
               </label>
+
               <label className="flex flex-col gap-1">
                 <span>Check-out</span>
-                <div className="flex items-center border border-[#dddddd] rounded-md px-3 py-[10px] text-sm font-normal text-[#717171]">
-                  <LuCalendarDays className="mr-2 text-black" />
-                  Seleccionar
-                </div>
+                <DatePicker
+                  selected={checkOutDate}
+                  onChange={(date) => setCheckOutDate(date)}
+                  selectsEnd
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={checkInDate || new Date()}
+                  placeholderText="Seleccionar"
+                  className="w-full border border-[#dddddd] rounded-md px-3 py-[10px] text-[#222] font-normal"
+                />
               </label>
             </div>
 

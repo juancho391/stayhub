@@ -7,8 +7,13 @@ import { useRouter } from "next/navigation";
 
 const DashboardNavbar = () => {
   const router = useRouter();
-  const { setToken, setUserLogin, userProfileInfo, setUserProfileInfo } =
-    useContext(Context);
+  const {
+    setToken,
+    setUserLogin,
+    userProfileInfo,
+    setUserProfileInfo,
+    userLogin,
+  } = useContext(Context);
 
   const cerrarSesion = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -21,7 +26,9 @@ const DashboardNavbar = () => {
     <nav className="flex items-center justify-between p-6 bg-white shadow-md">
       <div className="flex items-center space-x-2">
         <FaHome className="text-pink-500 text-2xl" />
-        <span className="text-xl font-bold text-gray-800">StayHub</span>
+        <Link href={"/"}>
+          <span className="text-xl font-bold text-gray-800">StayHub</span>
+        </Link>
       </div>
       <div className="flex flex-grow justify-center space-x-6">
         <p className="text-pink-500">

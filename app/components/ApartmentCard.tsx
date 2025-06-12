@@ -23,7 +23,7 @@ export default function ApartmentCard({ apartment }: { apartment: Lodging }) {
       {/* Placeholder Image */}
       <div className="relative w-full h-48 bg-gray-200 flex items-center justify-center">
         <Image
-          src={apartment.images[0]}
+          src="/casa1.jpg"
           alt={apartment.title}
           layout="fill"
           objectFit="cover"
@@ -59,7 +59,7 @@ export default function ApartmentCard({ apartment }: { apartment: Lodging }) {
             >
               <path d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM5.522 6.224l.583-.497A4.2 4.2 0 0 1 9 4.5h2a4.2 4.2 0 0 1 2.895 1.227l.583.497A7.323 7.323 0 0 0 10 4.25a7.323 7.323 0 0 0-4.478 1.974ZM10 15.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
             </svg>
-            {4} huéspedes
+            {apartment.no_rooms} hbitaciones
           </div>
         </div>
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4">

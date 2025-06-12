@@ -111,13 +111,6 @@ const AccommodationPage: React.FC = () => {
                 <li>🍳 Cocina equipada</li>
               </ul>
             </div>
-
-            {/* Botón Publicar Alojamiento */}
-            <div className="mt-8">
-              <button className="bg-black text-white px-5 py-2 rounded-md font-semibold text-sm">
-                Publicar Alojamiento
-              </button>
-            </div>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm w-full lg:w-auto h-fit border border-gray-200">
